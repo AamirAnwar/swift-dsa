@@ -231,9 +231,96 @@ open class AdjacencyListGraph<T>:AbstractGraph<T> where T:Hashable {
     
 }
 
+open class AdjacencyMatrixGraph<T>: AbstractGraph<T> where T:Hashable {
+    var adjacencyMatrix:[[Double?]] = []
+    var _vertices:[Vertex<T>] = []
+    
+    public required init() {}
+    
+    open override var vertices: [Vertex<T>] {
+        return _vertices
+    }
+    
+    open override var edges: [Edge<T>] {
+        var edges = [Edge<T>]()
+        for row in 0 ..< adjacencyMatrix.count {
+            for col in 0 ..< adjacencyMatrix.count {
+                if let weight = adjacencyMatrix[row][col] {
+                    edges.append(Edge.init(from: vertices[row], to: vertices[col], weight: weight))
+                }
+            }
+            
+        }
+        return edges
+    }
+    
+    open override func createVertex(_ data: T) -> Vertex<T> {
+        let matchingVertices = vertices.filter { vertex in
+            return vertex.data == data
+        }
+        if matchingVertices.isEmpty == false {
+            return matchingVertices.last!
+        }
+        
+        let vertex = Vertex<T>.init(data: data, index: adjacencyMatrix.count)
+        for i in 0..<adjacencyMatrix.count {
+            adjacencyMatrix[i].append(nil)
+        }
+        let newRow = [Double?](repeating: nil, count: adjacencyMatrix.count+1)
+        adjacencyMatrix.append(newRow)
+        
+        _vertices.append(vertex)
+        
+        return vertex
+    }
+    
+    open override func addDirectedEdge(_ from: Vertex<T>, toVertex to: Vertex<T>, withWeight weight: Double? = nil) {
+        adjacencyMatrix[from.index][to.index] = weight
+    }
+    
+    open override func addUndirectedEdge(_ vertices: (Vertex<T>, Vertex<T>), withWeight weight: Double? = nil) {
+        addDirectedEdge(vertices.0, toVertex: vertices.1, withWeight: weight)
+        addDirectedEdge(vertices.1, toVertex: vertices.0, withWeight: weight)
+    }
+    
+    open override func weightFrom(_ sourceVertex: Vertex<T>, to destinationVertex: Vertex<T>) -> Double? {
+      return adjacencyMatrix[sourceVertex.index][destinationVertex.index]
+    }
+
+    open override func edgesFrom(_ sourceVertex: Vertex<T>) -> [Edge<T>] {
+      var outEdges = [Edge<T>]()
+      let fromIndex = sourceVertex.index
+      for column in 0..<adjacencyMatrix.count {
+        if let weight = adjacencyMatrix[fromIndex][column] {
+          outEdges.append(Edge(from: sourceVertex, to: vertices[column], weight: weight))
+        }
+      }
+      return outEdges
+    }
+
+    open override var description: String {
+      var grid = [String]()
+      let n = self.adjacencyMatrix.count
+      for i in 0..<n {
+        var row = ""
+        for j in 0..<n {
+          if let value = self.adjacencyMatrix[i][j] {
+            let number = NSString(format: "%.1f", value)
+            row += "\(value >= 0 ? " " : "")\(number) "
+          } else {
+            row += "  ø  "
+          }
+        }
+        grid.append(row)
+      }
+      return (grid as NSArray).componentsJoined(by: "\n")
+    }
+
+}
+
 
 //Driver
-for graph in [AdjacencyListGraph<Int>()] {
+for graph in [AdjacencyListGraph<Int>(), AdjacencyMatrixGraph<Int>()] {
     
     let v1 = graph.createVertex(1)
     let v2 = graph.createVertex(2)
