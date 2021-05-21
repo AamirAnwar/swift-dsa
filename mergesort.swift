@@ -1,63 +1,62 @@
 
-func merge(_ x:inout [Int], _ l:Int, _ m:Int, _ r:Int) {
-    let p = Array(x[l...m])
-    let q = Array(x[m+1...r])
+import Foundation
+// Merge sort
+
+
+func merge(_ l:Int, _ m:Int ,_ r:Int, _ x:inout [Int]) {
+    let A = Array(x[l...m])
+    let B = Array(x[m+1...r])
+    print("merging ",A,B)
+    let n = A.count + B.count
     var k = l
-    var a = 0
-    var b = 0
-    while (k < x.count) && (a < p.count) && (b < q.count) {
-        if p[a] < q[b] {
-            x[k] = p[a]
-            a += 1
+    var i = 0
+    var j = 0
+    
+    while k < (l+n) && i < A.count && j < B.count {
+        if A[i] < B[j] {
+            print("\(A[i]) < \(B[j])")
+            x[k] = A[i]
+            i += 1
         } else {
-            x[k] = q[b]
-            b += 1
+            x[k] = B[j]
+            print("\(B[j]) < \(A[i])")
+            j += 1
         }
         k += 1
-        
     }
     
-    while a < p.count {
-        x[k] = p[a]
-        a += 1
+    for p in i..<A.count {
+        x[k] = A[p]
         k += 1
     }
-     
-    while b < q.count {
-        x[k] = q[b]
-        b += 1
+    
+    for q in j..<B.count {
+        x[k] = B[q]
         k += 1
     }
-}
-
-
-func _mergesort(_ l:Int, _ r:Int, _ x: inout [Int]) -> Void {
-    guard l < r else {
-        return
-    }
-    
-    let m:Int = l + (r-l)/2
-    print("Middle value is \(m)")
-    print(x[l...m])
-    print(x[m+1...r])
-    
-    _mergesort(l, m, &x)
-    _mergesort(m+1, r, &x)
-    merge(&x, l, m ,r)
+    print("Merged - ", x[l...r])
     
 }
 
-func mergeSort(_ x: inout [Int]) -> Void {
-    _mergesort(0, x.count-1, &x)
+
+
+func _mergesort(_ l:Int, _ r:Int, _ x:inout [Int]) {
+    guard l < r else {return}
+    let m = l + (r-l)/2
+    _mergesort(l,m,&x)
+    _mergesort(m+1,r,&x)
+    merge(l,m,r,&x)
+    print(x)
 }
 
-var input = [9,8,7,6,5,4,3,2,1]
-mergeSort(&input)
+func mergesort(_ x:inout [Int]) {
+    _mergesort(0,x.count-1,&x)
+    
+}
+
+var input = [1,2,3,4,7,6]
+
+mergesort(&input)
 print(input)
-
-
-
-
-
 
 
