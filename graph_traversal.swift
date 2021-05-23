@@ -141,8 +141,6 @@ class Graph: CustomStringConvertible {
             }
             rows.append("\(edgeList.vertex.data) -> [\(row.joined(separator:", "))]")
         }
-        print("Hello")
-        print(adjacencyList)
         return rows.joined(separator: "\n")
     }
     
@@ -191,24 +189,118 @@ class Graph: CustomStringConvertible {
         var discovered:Set<Int> = [start.index]
         _dfs(start, processed: &processed, discovered: &discovered)
     }
+    
+    func performFloydWarshall(from:Vertex, to:Vertex) -> Double? {
+        print("Running floyd warshall algo in O(v^3)")
+        let n = vertices.count
+        var distanceMatrix:[[Double]] = [[Double]]()
+        for i in 0..<n {
+            var l = [Double](repeating: Double(Int.max), count: n)
+            l[i] = 0.0
+            distanceMatrix.append(l)
+            
+        }
+        
+        for v in vertices {
+            if let edges = adjacencyList[v.index].edges {
+                for e in edges {
+                    if let w = e.weight {
+                        distanceMatrix[e.from.index][e.to.index] = w
+                    } else {
+                        assert(true, "Weight missing")
+                    }
+                }
+            }
+        }
+        
+        for x in distanceMatrix {
+            print(x)
+        }
+        print("\n")
+        
+        for k in 0..<n {
+            for i in 0..<n {
+                for j in 0..<n {
+                    let currentDistance = distanceMatrix[i][j]
+                    let candidateDistance = distanceMatrix[i][k] + distanceMatrix[k][j]
+                    if currentDistance > candidateDistance {
+                        distanceMatrix[i][j] = candidateDistance
+                    }
+                }
+            }
+        }
+        
+        for x in distanceMatrix {
+            print(x)
+        }
+        
+        
+        return distanceMatrix[from.index][to.index]
+    }
+    
+    func performDijkstra(_ s:Vertex) {
+        print("Running Dijkstra's Algorithm for finding single source shortest paths in O(mn)")
+        var processed:Set<Int> = Set<Int>()
+        var distanceMap:Dictionary<Int, Double> = [:]
+        processed.insert(s.index)
+        distanceMap[0] = 0.0
+        while processed.count < vertices.count {
+            let procVertices:[Int] = processed.map {v in
+                return v
+            }
+            var min:Double?
+            var minEdge:Edge?
+            for sourceVertexIndex in procVertices {
+                
+                if let edges = adjacencyList[sourceVertexIndex].edges {
+                    
+                    for e in edges {
+                        if processed.contains(e.to.index) == false {
+                            var prevWeight:Double = 0
+                            if let w = distanceMap[sourceVertexIndex] {
+                                prevWeight += w
+                            }
+                            prevWeight += e.weight ?? 0.0
+                            if let x = min {
+                                if prevWeight < x {
+                                    min = prevWeight
+                                    minEdge = e
+                                }
+                                
+                            } else {
+                                min = prevWeight
+                                minEdge = e
+                            }
+                        }
+                    }
+                    
+                }
+            }
+            if let minEdge = minEdge, let min = min {
+                processed.insert(minEdge.to.index)
+                distanceMap[minEdge.to.index] = min
+            }
+        }
+        print(distanceMap)
+    }
 }
 
 
 let graph = Graph()
-let A = graph.createVertex(data: 10)
-let B = graph.createVertex(data: 3)
-let C = graph.createVertex(data: 4)
-let D = graph.createVertex(data: 8)
+let A = graph.createVertex(data: 1)
+let B = graph.createVertex(data: 2)
+let C = graph.createVertex(data: 3)
+let D = graph.createVertex(data: 4)
 
-graph.addDirectedEdge(from: A, to: B)
-graph.addDirectedEdge(from: A, to: C)
-graph.addDirectedEdge(from: B, to: C)
-graph.addDirectedEdge(from: C, to: D)
-graph.addDirectedEdge(from: D, to: A)
+graph.addDirectedEdge(from: A, to: B, weight:1)
+graph.addDirectedEdge(from: A, to: C, weight:4)
+graph.addDirectedEdge(from: B, to: C, weight:2)
+graph.addDirectedEdge(from: B, to: D, weight:7)
+graph.addDirectedEdge(from: C, to: D, weight:1)
 
 
-print(graph)
-graph.dfs(startAt: A)
+//graph.performDijkstra(A)
+print(graph.performFloydWarshall(from: A, to: D)!)
 
 
 
