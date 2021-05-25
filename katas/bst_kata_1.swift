@@ -20,6 +20,21 @@ extension Node:Hashable {
     }
 }
 
+class Queue {
+    private(set) var list:[Node] = []
+    
+    func enqueue(_ x:Node) {
+        list.append(x)
+    }
+    
+    func dequeue() -> Node? {
+        guard list.isEmpty == false else {return nil}
+        let x = list[0]
+        list.remove(at:0)
+        return x
+    }
+}
+
 
 class BST {
     var root:Node?
@@ -74,7 +89,28 @@ class BST {
         return root
     }
     
+    func getHeight() -> Int {
+        return calculateHeight(root:root)
+    }
     
+    private func calculateHeight(root:Node?) -> Int {
+        guard let root = root else {return -1}
+        return max(calculateHeight(root: root.left), calculateHeight(root: root.right)) + 1
+        
+    }
+    
+    func getDepth() -> Int {
+        guard let root = root else {
+            return -1
+        }
+        return calculateDepth(root: root, level:0)
+    }
+    
+    private func calculateDepth(root:Node?, level:Int) -> Int {
+        guard let root = root else {return level-1}
+        print("Node \(root.data) has depth \(level) ")
+        return max(calculateDepth(root: root.left, level: level+1),calculateDepth(root: root.right, level: level+1))
+    }
     
     func findInorderSuccessor(root:Node?) -> Node? {
         guard let root = root else {
@@ -136,10 +172,6 @@ class BST {
         
     }
     
-    func dfs() {
-        
-    }
-    
     // Level order traversal
     func bfs() {
         guard let root = root else {return}
@@ -178,23 +210,6 @@ class BST {
     }
 }
 
-class Queue {
-    private(set) var list:[Node] = []
-    
-    func enqueue(_ x:Node) {
-        list.append(x)
-    }
-    
-    func dequeue() -> Node? {
-        guard list.isEmpty == false else {return nil}
-        let x = list[0]
-        list.remove(at:0)
-        return x
-        
-    }
-    
-}
-
 
 
 let tree = BST()
@@ -206,5 +221,11 @@ for i in input {
 
 tree.inorder()
 tree.bfs()
+
+print(tree.getHeight())
+
+print(tree.getDepth())
+
+
 
 
