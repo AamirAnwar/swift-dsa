@@ -117,6 +117,8 @@ class AVLTree {
             let successor = getMinimum(root: root.right)!
             root.data = successor.data
             root.right = deleteUtil(root.right, successor.data)
+
+            updateHeight(root:root)
             
         }
         return rotateIfNeeded(x: root, data: x)
