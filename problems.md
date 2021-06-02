@@ -402,6 +402,8 @@ Infinity dining
 *Why Amazon?*
 [TODO] MDNA
 
+*What was the hardest bug you've ever faced?*
+
 *Tell me about a challenging project and how managed to deliver the expected outcome*
 99%
 
@@ -526,6 +528,51 @@ before you get yourself too wrapped up insisting on high standards, keep in mind
 - [Amazon interview tips] https://www.monsterindia.com/career-advice/here-is-how-you-can-ace-these-amazon-technical-interview-questions-and-answers-7510.html
 - [Interview Experience] https://www.geeksforgeeks.org/amazon-interview-experience-2021-3-years-experienced/?utm_source=feedburner&utm_medium=email&utm_campaign=Feed%3A+Geeksforgeeks+%28GeeksforGeeks%29
 - https://leetcode.com/problemset/all/?listId=7p5x763&difficulty=Medium
+
+
+
+## High Priority Questions
+Kruskal MST Lecture
+Union Find - Detect a cycle in a graph
+Master list of data structures and their running times - Add to quizlet
+Practice LP Questions and HR round
+max path sum of a binary tree
+Construct a tree from given traversals
+Given a binary tree, check if it’s a mirror of itself
+Level order traversal in spiral form
+Create Binary Tree from it's Linked List representation
+https://www.geeksforgeeks.org/median-of-stream-of-integers-running-integers/
+https://www.geeksforgeeks.org/reverse-alternate-levels-binary-tree/
+https://www.geeksforgeeks.org/print-binary-tree-vertical-order/
+https://leetcode.com/problems/diameter-of-binary-tree/
+Design an algorithm to serialize and deserialize a binary tree. There is no restriction on how your serialization/deserialization algorithm should work. You just need to ensure that a binary tree can be serialized to a string and this string can be deserialized to the original tree structure."
+https://www.geeksforgeeks.org/binary-tree-to-binary-search-tree-conversion/
+https://www.interviewbit.com/problems/merge-two-binary-tree/
+Paranthesis problem
+Check if a string is a palindrome
+Check if a string is a anagram
+Reverse a linkedlist
+https://leetcode.com/problems/number-of-islands/
+Find the merge point of two linked lists
+Merge sort for linked list
+Generate all Combinations of a given string
+Coin Change Problem
+Egg dropping puzzle
+Subset sum problem
+Activity Selection problem
+Job sequencing problem
+Rotate an array in O(n) time and O(1) space [Juggling Algorithm]
+Binary representation of a number 
+https://leetcode.com/problems/best-time-to-buy-and-sell-stock/
+Generate all Combinations of a given string
+Coin Change Problem
+Egg dropping puzzle
+Subset sum problem
+Activity Selection problem
+Job sequencing problem
+Rotate an array in O(n) time and O(1) space [Juggling Algorithm]
+Binary representation of a number 
+https://leetcode.com/problems/best-time-to-buy-and-sell-stock/
 
 
 
