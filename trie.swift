@@ -49,6 +49,9 @@ class Trie {
             }
             if let next = p.children[index] {
                 p = next
+                if i == x.count - 1 {
+                    p.isEndofWord = true
+                }
             } else {
                 let childNode = Node(data:String(l))
                 p.children[index] = childNode
