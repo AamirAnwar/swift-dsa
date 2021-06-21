@@ -89,27 +89,20 @@ class Graph {
     // (V*V*V)
     func floydwarshall() {
         var matrix = [[Double]]()
-        
         let n = vertices.count
-        
         for i in 0..<n {
             var row = [Double](repeating:Double.greatestFiniteMagnitude, count:n)
             row[i] = 0
             matrix.append(row)
         }
-        
-        
         for e in edges {
             matrix[e.from.index][e.to.index] = e.weight ?? 1.0
             
         }
-        
-        
-        
         for k in 0..<n {
             for i in 0..<n {
                 for j in 0..<n {
-                    if matrix[i][j] > matrix[i][k] + matrix[k][j] {
+                    if matrix[i][j] > matrix[i][k] + matrix[k][j] && matrix[i][k] != Double.greatestFiniteMagnitude && matrix[k][j] != Double.greatestFiniteMagnitude {
                         matrix[i][j] = matrix[i][k] + matrix[k][j]
                     }
                 }
