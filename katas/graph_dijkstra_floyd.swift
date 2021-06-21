@@ -86,6 +86,31 @@ class Graph {
         list[from.index].addEdge(Edge(from:from, to:to, weight:weight))
     }
     
+    // O(V*E)
+    func bellmanFord(_ start:Vertex) {
+        let V = vertices.count
+        let INF = Double.greatestFiniteMagnitude
+        var dist = [Double](repeating:INF, count:V)
+        dist[start.index] = 0.0
+        
+        for _ in 1..<V-1 {
+            for e in edges {
+                let weight = e.weight ?? 1.0
+                if dist[e.to.index] > dist[e.from.index] + weight {
+                    dist[e.to.index] = dist[e.from.index] + weight
+                }
+            }
+        }
+        for e in edges {
+            let weight = e.weight ?? 1.0
+            if dist[e.to.index] > dist[e.from.index] + weight {
+                print("[info] negative weight cycle detected")
+                return
+            }
+        }
+        print(dist)
+    }
+    
     // (V*V*V)
     func floydwarshall() {
         var matrix = [[Double]]()
@@ -156,12 +181,15 @@ let C = g.createVertex(3)
 let D = g.createVertex(4)
 
 
-g.addUndirectedEdge(from: A, to: B, weight: 4)
-g.addUndirectedEdge(from: A, to: C, weight: 3)
-g.addUndirectedEdge(from: C, to: D, weight: 1)
-g.addUndirectedEdge(from: B, to: D, weight: 2)
+g.addDirectedEdge(from: A, to: B, weight: 1)
+g.addDirectedEdge(from: C, to: A, weight: 1)
+g.addDirectedEdge(from: D, to: C, weight: 1)
+g.addDirectedEdge(from: B, to: D, weight: 1)
 
 g.dijkstraShortestPathAlgorthm(A)
 g.floydwarshall()
+g.bellmanFord(A)
+
+
 
 
